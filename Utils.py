@@ -3,7 +3,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.signal import convolve2d
 import os
-
+import pickle
+import time
 # this function reads the dataset
 def readDataSet():
     data_set = []
@@ -16,7 +17,14 @@ def readDataSet():
                 Y.append(i-1)
     return (data_set, Y)
 
-
+# this function reads the test dataset
+def readTestSet():
+    test_set = []
+    for filename in os.listdir("data"):
+        img = cv2.imread(os.path.join("data",filename), cv2.IMREAD_GRAYSCALE)
+        if img is not None:
+            test_set.append(pre_processing(img))
+    return test_set
 
 # this function gets the dominant color of image border 
 def getBorderColor(img):

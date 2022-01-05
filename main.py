@@ -6,30 +6,35 @@ from sklearn.svm import SVC
 
 # Defining main function
 def main():
-    # reading the whole dataset image and apply pre-processing
-    # the data_set now contains array of images that are binarized
-    # and cropped and pre-processed 
-    data_set, Y = readDataSet()
+    
+    # reading data folder that contains all test images
+    data = readTestSet()
+    # loading the model of the classifier
+    clf2 = pickle.load(open('SVM_model.pkl', 'rb'))  
 
-    # split the dataset into 80% 20% training test
-    X_train, X_testValid, Y_train, Y_testValid = train_test_split(data_set, Y, test_size=0.2, random_state=60)            
+    # open output files (results, time)
+    f_results = open("results.txt", "w")
+    f_time = open("time.txt", "w")
+    
+    # iterate over all images in order
+    for img in data:
+        # open timer
+        start_time = time.time()
+        # get image features
+        feature = getFeatures(img).reshape(1, -1)
+        # predict image class
+        y_class = clf2.predict(feature) + 1
+        # stop timer
+        end_time = time.time()
+        
+        # print results of current image
+        f_results.write(str(y_class[0]) + "\n")
+        f_time.write(str(round((end_time-start_time), 2)) + "\n")
 
-    # get the features of the training and test data
-    # each matrix now contains M rows of examples and
-    # 255 columns of LPQ features
-    features_train = getFeaturesList(X_train)
-    features_test = getFeaturesList(X_testValid)
+    # closing the files
+    f_results.close()
+    f_time.close()
 
-    # fitting SVM model to the training features
-    X = np.array(features_train)
-    y = np.array(Y_train)
-    clf = make_pipeline(StandardScaler(), SVC(gamma='auto'))
-    clf.fit(X, y)
 
-    # predict the test data and print accuracy
-    y_pred = (clf.predict(features_test))
-    acc = np.mean(y_pred == Y_testValid) * 100
-    print(acc)
-  
 if __name__=="__main__":
     main()

@@ -24,7 +24,7 @@ def main():
         y_class = model.predict(feature) + 1
         # stop the timer
         end_time = time.time()
-        
+
         # print results of current image
         f_results.write(str(y_class[0]) + "\n")
         f_time.write(str(round((end_time-start_time), 2)) + "\n")

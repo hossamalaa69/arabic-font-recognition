@@ -18,12 +18,12 @@ def readDataSet():
     return (data_set, Y)
 
 # this function reads the test dataset
-def readTestSet():
+def readTestSet(folder="data"):
     test_set = []
-    for filename in os.listdir("data"):
-        img = cv2.imread(os.path.join("data",filename), cv2.IMREAD_GRAYSCALE)
+    for filename in os.listdir(folder):
+        img = cv2.imread(os.path.join(folder,filename), cv2.IMREAD_GRAYSCALE)
         if img is not None:
-            test_set.append(pre_processing(img))
+            test_set.append(img)
     return test_set
 
 # this function gets the dominant color of image border 

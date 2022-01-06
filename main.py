@@ -1,8 +1,4 @@
 from Utils import *
-from sklearn.model_selection import train_test_split
-from sklearn.pipeline import make_pipeline
-from sklearn.preprocessing import StandardScaler
-from sklearn.svm import SVC
 
 # Defining main function
 def main():
@@ -10,7 +6,7 @@ def main():
     # reading data folder that contains all test images
     data = readTestSet()
     # loading the model of the classifier
-    clf2 = pickle.load(open('SVM_model.pkl', 'rb'))  
+    model = pickle.load(open('SVM_model.pkl', 'rb'))  
 
     # open output files (results, time)
     f_results = open("results.txt", "w")
@@ -18,13 +14,15 @@ def main():
     
     # iterate over all images in order
     for img in data:
-        # open timer
+        # start the timer
         start_time = time.time()
+        # apply binarization and text cropping 
+        img = pre_processing(img)
         # get image features
         feature = getFeatures(img).reshape(1, -1)
         # predict image class
-        y_class = clf2.predict(feature) + 1
-        # stop timer
+        y_class = model.predict(feature) + 1
+        # stop the timer
         end_time = time.time()
         
         # print results of current image

@@ -6,7 +6,7 @@ def main():
     # reading data folder that contains all test images
     data = readTestSet()
     # loading the model of the classifier
-    model = pickle.load(open('SVM_model.pkl', 'rb'))  
+    model = pickle.load(open('RF_model.pkl', 'rb'))  
 
     # open output files (results, time)
     f_results = open("results.txt", "w")
@@ -16,11 +16,11 @@ def main():
     for img in data:
         # start the timer
         start_time = time.time()
-        # apply binarization and text cropping 
+        # 1-apply binarization and text cropping 
         img = pre_processing(img)
-        # get image features
+        # 2-get image features
         feature = getFeatures(img).reshape(1, -1)
-        # predict image class
+        # 3-predict image class
         y_class = model.predict(feature) + 1
         # stop the timer
         end_time = time.time()
@@ -32,7 +32,6 @@ def main():
     # closing the files
     f_results.close()
     f_time.close()
-
 
 if __name__=="__main__":
     main()

@@ -18,12 +18,12 @@ def readDataSet():
     return (data_set, Y)
 
 # this function reads the test dataset
-def readTestSet():
+def readTestSet(folder="data"):
     test_set = []
-    for filename in os.listdir("data"):
-        img = cv2.imread(os.path.join("data",filename), cv2.IMREAD_GRAYSCALE)
+    for filename in os.listdir(folder):
+        img = cv2.imread(os.path.join(folder,filename), cv2.IMREAD_GRAYSCALE)
         if img is not None:
-            test_set.append(pre_processing(img))
+            test_set.append(img)
     return test_set
 
 # this function gets the dominant color of image border 
@@ -54,15 +54,20 @@ def showImage(img):
     plt.show()    
 
 
+# copyrights: this function is based on a public repository and we applied some modifications to it 
+# github link: https://github.com/onyxe/Multilayer-descriptors-for-medical-image-classification/blob/master/lpq.py
 # Local phase quantization descriper
 # this function gets the LPQ features from the image into a vector of size 255
 def lpq(img):
 
+    # the window size that we will slide the image with
     winSize=3
-    STFTalpha=1/winSize  # alpha in STFT approaches (for Gaussian derivative alpha=1)
+    # alpha in STFT approaches
+    STFTalpha=1/winSize
     
-    convmode='valid' # Compute descriptor responses only on part that have full neigborhood. Use 'same' if all pixels are included (extrapolates np.image with zeros).
-
+    # Compute descriptor responses only on part that have full neigborhood
+    convmode='valid' 
+    
     img=np.float64(img) # Convert np.image to double
     r=(winSize-1)/2 # Get radius from window size
     x=np.arange(-r,r+1)[np.newaxis] # Form spatial coordinates in window

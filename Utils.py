@@ -5,6 +5,8 @@ from scipy.signal import convolve2d
 import os
 import pickle
 import time
+import sys
+
 # this function reads the dataset
 def readDataSet():
     data_set = []

@@ -9,7 +9,7 @@ def main():
 
     # open output files (results, time)
     f_results = open(os.path.join(sys.argv[2],"results.txt"), "w")
-    f_time = open(os.path.join(sys.argv[2],"time.txt"), "w")
+    f_time = open(os.path.join(sys.argv[2],"times.txt"), "w")
     
     # iterate over all images in order
     for i in range(len(data)):

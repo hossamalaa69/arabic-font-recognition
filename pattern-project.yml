@@ -1,4 +1,4 @@
-name: pattern-project
+name: team1-env
 channels:
   - defaults
 dependencies:
